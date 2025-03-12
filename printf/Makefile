@@ -12,7 +12,7 @@
 
 SRCS    = ft_nbr_base.c ft_put.c ft_puthex.c ft_printf.c 
 
-NAME    = libftprintf.a
+NAME    = ftprintf.a
 
 CC		= cc	
 
