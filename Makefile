@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: GitHub Copilot <githubcopilot@student.42.fr>#+#  +:+       +#+         #
+#    By: ebansse <ebansse@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/10 17:23:27 by GitHub Copilot    #+#    #+#              #
-#    Updated: 2025/03/10 17:23:56 by GitHub Copilot   ###   ########.fr        #
+#    Created: 2025/03/14 13:31:16 by ebansse           #+#    #+#              #
+#    Updated: 2025/03/14 15:32:41 by ebansse          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc
+CC = cc	
 CFLAGS = -Wall -Wextra -Werror
-INCLUDES = -I/usr/include -Iprintf
+INCLUDES = -Iprintf
 LIBS = -Lprintf -l:ftprintf.a
 SRC_CLIENT = client.c
 SRC_SERVER = server.c
@@ -29,39 +29,32 @@ RED = \033[0;31m
 NC = \033[0m # No Color
 
 all : make_serv make_client
-	${MAKE} clean
+	@${MAKE} --no-print-directory clean
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -O3 -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) -O3 -c $< -o $@
 
 make_serv: make_libs $(OBJ_SERVER)
-	@echo "${BLUE}Compiling server...${NC}"
 	@$(CC) $(OBJ_SERVER) $(CFLAGS) $(INCLUDES) -o $(SERVER) $(LIBS)
 	@echo "${GREEN}Server compiled successfully!${NC}"
 
 make_client: $(OBJ_CLIENT)
-	@echo "${BLUE}Compiling client...${NC}"
-	$(CC) $(OBJ_CLIENT) $(CFLAGS) $(INCLUDES) -o $(CLIENT) $(LIBS)
-	@echo "${GREEN}Client compiled successfully!${NC}"
+	@$(CC) $(OBJ_CLIENT) $(CFLAGS) $(INCLUDES) -o $(CLIENT) $(LIBS)
+	@echo "${BLUE}Client compiled successfully!${NC}"
 
 make_libs:
-	@echo "${YELLOW}Compiling printf library...${NC}"
-	make -C printf
-	@echo "${GREEN}Printf library compiled successfully!${NC}"
+	@make --no-print-directory -C printf
+	@echo "${YELLOW}Printf library compiled successfully!${NC}"
 
 clean:
-	@echo "${RED}Cleaning object files...${NC}"
 	@rm -f $(OBJ_SERVER) $(OBJ_CLIENT)
-	@make -C printf clean
-	@echo "${GREEN}Cleaned object files!${NC}"
+	@make --no-print-directory -C printf clean
+	@echo "${RED}objects files cleaned !${NC}"
 
 fclean: clean
-	@echo "${RED}Cleaning all binaries...${NC}"
 	@rm -f $(SERVER) $(CLIENT)
-	@make -C printf fclean
-	@echo "${GREEN}Cleaned all binaries!${NC}"
+	@make --no-print-directory -C printf fclean
+	@echo "${RED}all binaries cleaned !${NC}"
 
 re: fclean all
-	${MAKE} clean
-
-.PHONY: all clean fclean re
+	@${MAKE} --no-print-directory clean

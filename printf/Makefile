@@ -6,7 +6,7 @@
 #    By: ebansse <ebansse@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/13 12:55:42 by ebansse           #+#    #+#              #
-#    Updated: 2024/11/18 15:57:52 by ebansse          ###   ########.fr        #
+#    Updated: 2025/03/14 15:30:14 by ebansse          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,22 +18,25 @@ CC		= cc
 
 AR		= ar rcs
 
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -fPIC
 
 OBJS    =  ${SRCS:.c=.o}
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-${NAME} : ${OBJS}
-	${AR} ${NAME} ${OBJS}
+YELLOW = \033[0;33m
+NC = \033[0m # No Color
 
 all : ${NAME}
 
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+${NAME} : ${OBJS}
+	@${AR} ${NAME} ${OBJS}
+
 clean :
-	rm -f ${OBJS} 
+	@rm -f ${OBJS}
 
 fclean : clean
-	rm -f ${NAME}
+	@rm -f ${NAME}
 
 re : fclean ${NAME}

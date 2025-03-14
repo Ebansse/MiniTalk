@@ -6,13 +6,13 @@
 /*   By: ebansse <ebansse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:27:22 by ebansse           #+#    #+#             */
-/*   Updated: 2025/03/10 17:23:18 by ebansse          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:48:44 by ebansse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-volatile sig_atomic_t flag;
+volatile sig_atomic_t	g_flag;
 
 int	ft_atoi(const char *str)
 {
@@ -50,16 +50,16 @@ void	send_char(pid_t pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		while (flag == 0)
+		while (g_flag == 0)
 			usleep(50);
-		flag = 0;
+		g_flag = 0;
 	}
 }
 
 void	rep_serv(int signal)
 {
 	if (signal == SIGUSR1)
-		flag = 1;
+		g_flag = 1;
 	else if (signal == SIGUSR2)
 	{
 		ft_printf("message received by server\n");
@@ -84,10 +84,7 @@ int	main(int argc, char **argv)
 		signal(SIGUSR1, rep_serv);
 		signal(SIGUSR2, rep_serv);
 		while (argv[2][++i])
-		{
-			ft_printf("sending %c\n", argv[2][i]);
 			send_char(pid, argv[2][i]);
-		}
 		send_char(pid, '\0');
 	}
 	else
