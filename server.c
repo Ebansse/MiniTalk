@@ -6,7 +6,7 @@
 /*   By: ebansse <ebansse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:34:03 by ebansse           #+#    #+#             */
-/*   Updated: 2025/03/14 15:44:50 by ebansse          ###   ########.fr       */
+/*   Updated: 2025/03/27 14:22:48 by ebansse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_signal(int signal, siginfo_t *info, void *context)
 	static int		bit;
 	static pid_t	pid_client;
 
-	(void) context;
+	(void)context;
 	if (info->si_pid != 0)
 		pid_client = info->si_pid;
 	if (signal == SIGUSR1)
